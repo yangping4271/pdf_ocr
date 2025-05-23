@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 获取脚本所在目录（用于找到虚拟环境和my_ocr.py）
+# 获取脚本所在目录（用于找到虚拟环境和main.py）
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # 获取当前工作目录（执行脚本的路径）
@@ -72,10 +72,10 @@ fi
 PDF_PATH="${PDF_FILES[0]}"
 echo "找到PDF文件: $PDF_PATH"
 
-# 检查my_ocr.py是否存在
-MY_OCR_SCRIPT="$SCRIPT_DIR/my_ocr.py"
-if [ ! -f "$MY_OCR_SCRIPT" ]; then
-    echo "错误：OCR处理脚本 $MY_OCR_SCRIPT 不存在"
+# 检查main.py是否存在
+MAIN_SCRIPT="$SCRIPT_DIR/main.py"
+if [ ! -f "$MAIN_SCRIPT" ]; then
+    echo "错误：OCR处理脚本 $MAIN_SCRIPT 不存在"
     if [ "$USE_UV" = false ]; then
         deactivate
     fi
@@ -87,11 +87,11 @@ echo "开始运行OCR处理..."
 if [ "$USE_UV" = true ]; then
     # 使用uv运行脚本
     cd "$SCRIPT_DIR"
-    uv run python "$MY_OCR_SCRIPT" "$PDF_PATH"
+    uv run python "$MAIN_SCRIPT" "$PDF_PATH"
     OCR_EXIT_CODE=$?
 else
     # 使用传统方式运行脚本
-    python "$MY_OCR_SCRIPT" "$PDF_PATH"
+    python "$MAIN_SCRIPT" "$PDF_PATH"
     OCR_EXIT_CODE=$?
     # 停用虚拟环境
     deactivate
