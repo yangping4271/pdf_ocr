@@ -13,41 +13,73 @@
 
 ## 📋 系统要求
 
-- Python 3.8+
+- Python 3.9+
+- uv 包管理工具
 - 有效的 Mistral AI API 密钥
 - macOS、Linux 或 Windows 系统
 
 ## 🛠️ 安装配置
 
-### 1. 克隆或下载项目
+### 1. 安装 uv 工具
+
+**macOS/Linux:**
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+**Windows (PowerShell):**
+```powershell
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+**或者使用 pip 安装:**
+```bash
+pip install uv
+```
+
+### 2. 克隆或下载项目
 
 ```bash
 # 进入项目目录
 cd my_ocr
 ```
 
-### 2. 创建虚拟环境
+### 3. 创建项目依赖文件
 
-```bash
-python3 -m venv .venv
+创建 `pyproject.toml` 文件（如果不存在）：
+
+```toml
+[project]
+name = "my-ocr"
+version = "0.1.0"
+description = "Mistral AI OCR工具"
+requires-python = ">=3.9"
+dependencies = [
+    "mistralai>=1.7.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 ```
 
-### 3. 激活虚拟环境
+> **注意**：只需要声明 `mistralai` 一个依赖，其他必需的包（如 `httpx`、`pydantic` 等）会作为传递依赖自动安装。
 
-**macOS/Linux:**
+### 4. 使用 uv 安装依赖
+
 ```bash
-source .venv/bin/activate
+# 创建虚拟环境并安装依赖（一步完成）
+uv sync
 ```
 
-**Windows:**
-```bash
-.venv\Scripts\activate
-```
-
-### 4. 安装依赖
+或者分步执行：
 
 ```bash
-pip install mistralai httpx pydantic
+# 创建虚拟环境
+uv venv
+
+# 安装依赖（只需安装mistralai，其他依赖会自动安装）
+uv pip install mistralai
 ```
 
 ### 5. 配置 API 密钥
@@ -79,6 +111,13 @@ chmod +x /path/to/my_ocr/my_ocr.sh
 ### 方法二：直接使用 Python 脚本
 
 ```bash
+# 使用 uv 运行脚本
+uv run python my_ocr.py /path/to/your/document.pdf
+```
+
+或者激活虚拟环境后运行：
+
+```bash
 # 激活虚拟环境
 source .venv/bin/activate
 
@@ -108,6 +147,7 @@ my_ocr/
 ├── .venv/                    # Python虚拟环境
 ├── .env                      # 环境变量配置文件
 ├── .gitignore               # Git忽略文件配置
+├── pyproject.toml           # 项目配置和依赖管理
 ├── my_ocr.py                # 主要的OCR处理脚本
 ├── my_ocr.sh                # Shell执行脚本
 └── README.md                # 项目说明文档
@@ -115,14 +155,31 @@ my_ocr/
 
 ## ⚙️ 主要依赖
 
-- **mistralai**: Mistral AI 官方 Python SDK
+- **mistralai**: Mistral AI 官方 Python SDK，提供 OCR 和聊天功能
+
+### 传递依赖（自动安装）
+以下依赖会在安装 `mistralai` 时自动安装，无需手动指定：
+
 - **httpx**: 现代化的 HTTP 客户端
-- **pydantic**: 数据验证和设置管理
+  - 用于与 Mistral AI API 服务器通信
+  - 支持异步请求和 HTTP/2 协议
+- **pydantic**: 数据验证和序列化库
+  - 用于验证 API 请求参数和响应数据
+  - 提供类型安全和数据序列化功能
+- **python-dateutil**: 日期时间处理
+- **typing-inspection**: 运行时类型检查
+
+> **说明**：您只需要在 `pyproject.toml` 中声明 `mistralai` 依赖，其他包会作为传递依赖自动安装。
 
 ## 📝 使用示例
 
 ### 处理单个PDF文件
 ```bash
+# 使用 uv 运行
+uv run python my_ocr.py /Users/username/Documents/report.pdf
+
+# 或者激活环境后运行
+source .venv/bin/activate
 python my_ocr.py /Users/username/Documents/report.pdf
 ```
 
@@ -132,12 +189,22 @@ python my_ocr.py /Users/username/Documents/report.pdf
 ./my_ocr.sh
 ```
 
+### 添加新依赖
+```bash
+# 使用 uv 添加新的依赖包
+uv add package_name
+
+# 移除依赖包
+uv remove package_name
+```
+
 ## ❗ 注意事项
 
 1. **API 密钥安全**：请勿将 `.env` 文件提交到版本控制系统
 2. **文件大小限制**：请注意 Mistral AI 对上传文件大小的限制
 3. **网络连接**：需要稳定的网络连接来访问 Mistral AI 服务
 4. **输出目录**：如果输出目录已存在，新文件会覆盖同名文件
+5. **uv 工具**：确保已正确安装 uv 工具，它比传统的 pip 更快更可靠
 
 ## 🐛 故障排除
 
@@ -155,11 +222,23 @@ python my_ocr.py /Users/username/Documents/report.pdf
 ```
 解决方案：确认文件路径正确，且文件确实存在
 
-**3. 虚拟环境问题**
+**3. uv 工具问题**
+```
+错误：uv: command not found
+```
+解决方案：重新安装 uv 工具或检查 PATH 环境变量
+
+**4. 虚拟环境问题**
 ```
 错误：无法激活虚拟环境
 ```
-解决方案：重新创建虚拟环境或检查路径配置
+解决方案：使用 `uv venv` 重新创建虚拟环境
+
+**5. Python 版本问题**
+```
+错误：mistralai>=1.7.0 需要 Python>=3.9
+```
+解决方案：升级到 Python 3.9 或更高版本
 
 ## 📜 许可证
 
