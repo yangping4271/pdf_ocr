@@ -1,4 +1,4 @@
-# My OCR - Mistral AI OCR 工具
+# PDF OCR - Mistral AI OCR 工具
 
 基于 Mistral AI 的 PDF 文档光学字符识别（OCR）工具，能够将 PDF 文档转换为 Markdown 格式，并提取其中的图片。
 
@@ -45,10 +45,10 @@ MISTRAL_API_KEY=your_mistral_api_key_here
 
 ```bash
 # 使脚本可执行
-chmod +x /path/to/my_ocr/my_ocr.sh
+chmod +x /path/to/my_ocr/pdf_ocr.sh
 
 # 运行脚本（会自动处理当前目录的第一个PDF文件）
-/path/to/my_ocr/my_ocr.sh
+/path/to/my_ocr/pdf_ocr.sh
 ```
 
 ### 方法二：直接使用 Python 脚本
@@ -79,7 +79,7 @@ my_ocr/
 ├── .env                      # 环境变量配置文件
 ├── pyproject.toml           # 项目配置和依赖管理
 ├── main.py                  # 主要的OCR处理脚本
-├── my_ocr.sh                # Shell执行脚本
+├── pdf_ocr.sh               # Shell执行脚本
 └── README.md                # 项目说明文档
 ```
 
@@ -90,7 +90,7 @@ my_ocr/
 uv run python main.py /Users/username/Documents/report.pdf
 
 # 批量处理当前目录PDF文件
-./my_ocr.sh
+./pdf_ocr.sh
 ```
 
 ## ❗ 注意事项

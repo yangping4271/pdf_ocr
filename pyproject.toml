@@ -1,7 +1,7 @@
 [project]
-name = "my-ocr"
+name = "pdf-ocr"
 version = "0.1.0"
-description = "基于 Mistral AI 的 PDF 文档光学字符识别（OCR）工具"
+description = "PDF OCR - 基于 Mistral AI 的 PDF 文档光学字符识别工具"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
