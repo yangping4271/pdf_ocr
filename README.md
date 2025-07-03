@@ -1,118 +1,121 @@
-# PDF OCR - Mistral AI OCR 工具
+# PDF OCR - Mistral AI OCR Tool
 
-基于 Mistral AI 的 PDF 文档光学字符识别（OCR）工具，能够将 PDF 文档转换为 Markdown 格式，并提取其中的图片。
+A PDF Optical Character Recognition (OCR) tool powered by Mistral AI, capable of converting PDF documents to Markdown format and extracting embedded images.
 
-## 🚀 功能特性
+**🌏 Language**: [中文文档 / Chinese Documentation](./README_CN.md)
 
-- **PDF 文档 OCR 处理**：使用 Mistral AI 的最新 OCR 模型进行文档识别
-- **智能文本提取**：将 PDF 内容转换为结构化的 Markdown 格式
-- **图片提取保存**：自动提取并保存文档中的图片文件
-- **批量处理支持**：shell 脚本自动查找并处理当前目录的 PDF 文件
+## 🚀 Features
 
-## 📋 系统要求
+- **PDF Document OCR Processing**: Utilizes Mistral AI's latest OCR models for document recognition
+- **Intelligent Text Extraction**: Converts PDF content to structured Markdown format
+- **Image Extraction & Saving**: Automatically extracts and saves images from documents
+- **Batch Processing Support**: Shell script automatically finds and processes PDF files in current directory
+
+## 📋 Requirements
 
 - Python 3.9+
-- uv 包管理工具
-- 有效的 Mistral AI API 密钥
+- uv package manager
+- Valid Mistral AI API key
 
-## 🛠️ 安装配置
+## 🛠️ Installation & Setup
 
-### 1. 安装 uv 工具
+### 1. Install uv Tool
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### 2. 安装依赖
+### 2. Install Dependencies
 
 ```bash
-# 创建虚拟环境并安装依赖
+# Create virtual environment and install dependencies
 uv sync
 ```
 
-### 3. 配置 API 密钥
+### 3. Configure API Key
 
-创建 `.env` 文件并添加您的 Mistral AI API 密钥：
+Create a `.env` file and add your Mistral AI API key:
 
 ```bash
 # .env
 MISTRAL_API_KEY=your_mistral_api_key_here
 ```
 
-## 📖 使用方法
+## 📖 Usage
 
-### 方法一：使用 Shell 脚本（推荐）
+### Method 1: Using Shell Script (Recommended)
 
 ```bash
-# 使脚本可执行
+# Make script executable
 chmod +x /path/to/my_ocr/pdf_ocr.sh
 
-# 运行脚本（会自动处理当前目录的第一个PDF文件）
+# Run script (automatically processes the first PDF file in current directory)
 /path/to/my_ocr/pdf_ocr.sh
 ```
 
-### 方法二：直接使用 Python 脚本
+### Method 2: Direct Python Script Usage
 
 ```bash
-# 使用 uv 运行脚本
+# Run with uv
 uv run python main.py /path/to/your/document.pdf
 ```
 
-## 📁 输出结果
+## 📁 Output Structure
 
-处理完成后，会在 PDF 文件所在目录生成一个输出文件夹：
+After processing, an output folder will be generated in the PDF file's directory:
 
 ```
-原PDF文件目录/
-├── document.pdf                          # 原始PDF文件
-└── document_ocr_output/                  # OCR输出目录
-    ├── document_ocr.md                   # Markdown格式的文本内容
-    ├── document_ocr_response.json        # 完整的API响应数据
-    └── img-0-0, img-0-1, ...            # 提取的图片文件
+PDF_Directory/
+├── document.pdf                          # Original PDF file
+└── document_ocr_output/                  # OCR output directory
+    ├── document_ocr.md                   # Markdown formatted text content
+    ├── document_ocr_response.json        # Complete API response data
+    └── img-0-0, img-0-1, ...            # Extracted image files
 ```
 
-## 🔧 项目结构
+## 🔧 Project Structure
 
 ```
 my_ocr/
-├── .venv/                    # Python虚拟环境
-├── .env                      # 环境变量配置文件
-├── pyproject.toml           # 项目配置和依赖管理
-├── main.py                  # 主要的OCR处理脚本
-├── pdf_ocr.sh               # Shell执行脚本
-└── README.md                # 项目说明文档
+├── .venv/                    # Python virtual environment
+├── .env                      # Environment variables configuration
+├── pyproject.toml           # Project configuration and dependency management
+├── main.py                  # Main OCR processing script
+├── pdf_ocr.sh               # Shell execution script
+├── README.md                # Project documentation (English)
+└── README_CN.md             # Project documentation (Chinese)
 ```
 
-## 📝 使用示例
+## 📝 Usage Examples
 
 ```bash
-# 处理单个PDF文件
+# Process a single PDF file
 uv run python main.py /Users/username/Documents/report.pdf
 
-# 批量处理当前目录PDF文件
+# Batch process PDF files in current directory
 ./pdf_ocr.sh
 ```
 
-## ❗ 注意事项
+## ❗ Important Notes
 
-1. **API 密钥安全**：请勿将 `.env` 文件提交到版本控制系统
-2. **文件大小限制**：请注意 Mistral AI 对上传文件大小的限制
-3. **网络连接**：需要稳定的网络连接来访问 Mistral AI 服务
+1. **API Key Security**: Do not commit the `.env` file to version control systems
+2. **File Size Limitations**: Be aware of Mistral AI's file size upload limits
+3. **Network Connection**: Requires stable network connection to access Mistral AI services
 
-## 🐛 故障排除
+## 🐛 Troubleshooting
 
-**API 密钥错误**
+**API Key Error**
 ```
-错误：MISTRAL_API_KEY 环境变量未设置
+Error: MISTRAL_API_KEY environment variable not set
 ```
-解决方案：检查 `.env` 文件是否正确配置了 API 密钥
+Solution: Check if the API key is correctly configured in the `.env` file
 
-**PDF 文件未找到**
+**PDF File Not Found**
 ```
-错误：文件 xxx.pdf 未找到
+Error: File xxx.pdf not found
 ```
-解决方案：确认文件路径正确，且文件确实存在
+Solution: Verify the file path is correct and the file exists
 
 ---
 
-**更新时间**：2025年5月
+**Last Updated**: May 2025
