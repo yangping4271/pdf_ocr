@@ -7,7 +7,8 @@
 - **PDF 文档 OCR 处理**：使用 Mistral AI 的最新 OCR 模型进行文档识别
 - **智能文本提取**：将 PDF 内容转换为结构化的 Markdown 格式
 - **图片提取保存**：自动提取并保存文档中的图片文件
-- **批量处理支持**：shell 脚本自动查找并处理当前目录的 PDF 文件
+- **命令行界面**：现代化的 CLI 工具，支持多种使用方式
+- **自动文件查找**：智能查找并处理当前目录的 PDF 文件
 
 ## 📋 系统要求
 
@@ -23,14 +24,21 @@
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### 2. 安装依赖
+### 2. 安装为系统工具（推荐）
+
+```bash
+# 全局安装 pdf-ocr 工具
+uv tool install .
+```
+
+### 3. 或者安装依赖进行开发
 
 ```bash
 # 创建虚拟环境并安装依赖
 uv sync
 ```
 
-### 3. 配置 API 密钥
+### 4. 配置 API 密钥
 
 创建 `.env` 文件并添加您的 Mistral AI API 密钥：
 
@@ -41,17 +49,36 @@ MISTRAL_API_KEY=your_mistral_api_key_here
 
 ## 📖 使用方法
 
-### 方法一：使用 Shell 脚本（推荐）
+### 方法一：使用安装的 CLI 工具（推荐）
 
 ```bash
-# 使脚本可执行
-chmod +x /path/to/my_ocr/pdf_ocr.sh
+# 处理指定的 PDF 文件
+pdf-ocr /path/to/your/document.pdf
 
-# 运行脚本（会自动处理当前目录的第一个PDF文件）
-/path/to/my_ocr/pdf_ocr.sh
+# 自动查找并处理当前目录的 PDF 文件
+pdf-ocr --auto-find
+
+# 在指定目录查找 PDF 文件
+pdf-ocr --directory /path/to/pdf/folder
+
+# 查看帮助信息
+pdf-ocr --help
 ```
 
-### 方法二：直接使用 Python 脚本
+### 方法二：直接运行脚本
+
+```bash
+# 使用 uv 运行脚本
+uv run python cli.py ocr /path/to/your/document.pdf
+
+# 自动查找当前目录的 PDF 文件
+uv run python cli.py ocr --auto-find
+
+# 查看版本信息
+uv run python cli.py version
+```
+
+### 方法三：使用原始 Python 脚本
 
 ```bash
 # 使用 uv 运行脚本
@@ -74,23 +101,29 @@ uv run python main.py /path/to/your/document.pdf
 ## 🔧 项目结构
 
 ```
-my_ocr/
+pdf_ocr/
 ├── .venv/                    # Python虚拟环境
 ├── .env                      # 环境变量配置文件
 ├── pyproject.toml           # 项目配置和依赖管理
 ├── main.py                  # 主要的OCR处理脚本
-├── pdf_ocr.sh               # Shell执行脚本
-└── README.md                # 项目说明文档
+├── cli.py                   # 命令行界面脚本
+├── README.md                # 项目说明文档（英文）
+└── README_CN.md             # 项目说明文档（中文）
 ```
 
 ## 📝 使用示例
 
 ```bash
-# 处理单个PDF文件
-uv run python main.py /Users/username/Documents/report.pdf
+# 使用系统安装的工具
+pdf-ocr ~/Documents/report.pdf
+pdf-ocr --auto-find
 
-# 批量处理当前目录PDF文件
-./pdf_ocr.sh
+# 使用开发环境
+uv run python cli.py ocr ~/Documents/report.pdf
+uv run python cli.py ocr --auto-find
+
+# 传统方式
+uv run python main.py ~/Documents/report.pdf
 ```
 
 ## ❗ 注意事项

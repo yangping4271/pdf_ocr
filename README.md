@@ -9,7 +9,8 @@ A PDF Optical Character Recognition (OCR) tool powered by Mistral AI, capable of
 - **PDF Document OCR Processing**: Utilizes Mistral AI's latest OCR models for document recognition
 - **Intelligent Text Extraction**: Converts PDF content to structured Markdown format
 - **Image Extraction & Saving**: Automatically extracts and saves images from documents
-- **Batch Processing Support**: Shell script automatically finds and processes PDF files in current directory
+- **Command Line Interface**: Modern CLI tool with multiple usage options
+- **Automatic File Discovery**: Smart detection and processing of PDF files in directories
 
 ## 📋 Requirements
 
@@ -25,14 +26,21 @@ A PDF Optical Character Recognition (OCR) tool powered by Mistral AI, capable of
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### 2. Install Dependencies
+### 2. Install as System Tool (Recommended)
+
+```bash
+# Install pdf-ocr tool globally
+uv tool install .
+```
+
+### 3. Or Install Dependencies for Development
 
 ```bash
 # Create virtual environment and install dependencies
 uv sync
 ```
 
-### 3. Configure API Key
+### 4. Configure API Key
 
 Create a `.env` file and add your Mistral AI API key:
 
@@ -43,17 +51,36 @@ MISTRAL_API_KEY=your_mistral_api_key_here
 
 ## 📖 Usage
 
-### Method 1: Using Shell Script (Recommended)
+### Method 1: Using Installed CLI Tool (Recommended)
 
 ```bash
-# Make script executable
-chmod +x /path/to/my_ocr/pdf_ocr.sh
+# Process a specific PDF file
+pdf-ocr /path/to/your/document.pdf
 
-# Run script (automatically processes the first PDF file in current directory)
-/path/to/my_ocr/pdf_ocr.sh
+# Auto-find and process PDF files in current directory
+pdf-ocr --auto-find
+
+# Search for PDF files in a specific directory
+pdf-ocr --directory /path/to/pdf/folder
+
+# View help information
+pdf-ocr --help
 ```
 
-### Method 2: Direct Python Script Usage
+### Method 2: Direct Script Execution
+
+```bash
+# Run with uv
+uv run python cli.py ocr /path/to/your/document.pdf
+
+# Auto-find PDF files in current directory
+uv run python cli.py ocr --auto-find
+
+# View version information
+uv run python cli.py version
+```
+
+### Method 3: Using Original Python Script
 
 ```bash
 # Run with uv
@@ -76,12 +103,12 @@ PDF_Directory/
 ## 🔧 Project Structure
 
 ```
-my_ocr/
+pdf_ocr/
 ├── .venv/                    # Python virtual environment
 ├── .env                      # Environment variables configuration
 ├── pyproject.toml           # Project configuration and dependency management
 ├── main.py                  # Main OCR processing script
-├── pdf_ocr.sh               # Shell execution script
+├── cli.py                   # Command line interface script
 ├── README.md                # Project documentation (English)
 └── README_CN.md             # Project documentation (Chinese)
 ```
@@ -89,11 +116,16 @@ my_ocr/
 ## 📝 Usage Examples
 
 ```bash
-# Process a single PDF file
-uv run python main.py /Users/username/Documents/report.pdf
+# Using system installed tool
+pdf-ocr ~/Documents/report.pdf
+pdf-ocr --auto-find
 
-# Batch process PDF files in current directory
-./pdf_ocr.sh
+# Using development environment
+uv run python cli.py ocr ~/Documents/report.pdf
+uv run python cli.py ocr --auto-find
+
+# Traditional approach
+uv run python main.py ~/Documents/report.pdf
 ```
 
 ## ❗ Important Notes
